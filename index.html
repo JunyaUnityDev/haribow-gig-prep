@@ -162,6 +162,30 @@
     font-size: 12.5px; color: var(--ink-faint); max-width: 62ch;
   }
   footer.note a { color: var(--ink-muted); }
+
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: var(--bg-elevated); border: 1px solid var(--rule); border-radius: 12px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    padding: 18px 20px; cursor: pointer; list-style: none;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-size: 15px; font-weight: 600;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: "+"; font-size: 20px; color: var(--ink-faint); flex: none; }
+  .faq-item[open] summary::after { content: "\2013"; }
+  .faq-item summary:focus-visible { outline: 2px solid var(--accent-cool); outline-offset: 2px; }
+  .faq-body { padding: 0 20px 22px; font-size: 14px; color: var(--ink); }
+  .faq-body p { margin: 0 0 12px; }
+  .faq-body p:last-child { margin-bottom: 0; }
+  .faq-body a.jump-link {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent-cool);
+    text-decoration: none; border-bottom: 1px solid var(--accent-cool); padding-bottom: 1px;
+  }
+  .faq-body .mini-tip-list { margin: 0 0 12px; padding-left: 18px; }
+  .faq-body .mini-tip-list li { margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -173,11 +197,60 @@
     <h1>案件に行く前に</h1>
     <p class="lede">立ち振る舞い・撮られ方・振り付け確認を1ページに集約。本番/撮影の前にひと通り目を通す用。</p>
     <nav class="jump">
+      <a href="#soudan">こんな時どうする？</a>
       <a href="#behavior">01 立ち振る舞い</a>
       <a href="#posing">02 写真を撮られるとき・ポージング</a>
       <a href="#choreo">03 振り付け確認</a>
     </nav>
   </header>
+
+  <section class="block block--cool" id="soudan">
+    <h2>こんな時どうする？</h2>
+    <p class="sub">本番前に頭をよぎりそうな悩みをタップすると、解決策が開きます。</p>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>自分の見せ場がない曲パート、何していればいい？</summary>
+        <div class="faq-body">
+          <p>見せ場がない瞬間ほど「意識」が抜けやすい。全員で音・動きを揃える瞬間は、見せ場と同じくらい会場に伝わっている。</p>
+          <a class="jump-link" href="#behavior">→「全員で揃える時の意識」動画を見る</a>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>どうアピールする？</summary>
+        <div class="faq-body">
+          <p>じゅんやが実演で解説してる動画がある。まずそのまま真似るところから。</p>
+          <a class="jump-link" href="#behavior">→「アピールの仕方解説」動画を見る</a>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>緊張で表情が固まる/真顔になる</summary>
+        <div class="faq-body">
+          <p>「うー」「いー」の口の形を数回繰り返すと表情筋がほぐれる。口角は上げる、歯は見せない、顎の力を抜く。</p>
+          <a class="jump-link" href="#posing">→ 表情の作り方（撮影向け）を見る</a>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>急に「写真撮るよ」って言われた時、とっさにどうする？</summary>
+        <div class="faq-body">
+          <p>3つだけ意識すればいい。</p>
+          <ul class="mini-tip-list">
+            <li>片脚に重心をかける（直立不動にしない）</li>
+            <li>口角を上げる</li>
+            <li>顎を少し引く</li>
+          </ul>
+          <a class="jump-link" href="#posing">→ 立ち方・表情の図解を見る</a>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>自分のキャラクターってどうやって確立する？</summary>
+        <div class="faq-body">
+          <p>「なりたい自分」型か「ありのまま」型か、どちらかをはっきりさせる方が強い。中間・ハイブリッドが一番弱い。</p>
+          <p>本当の武器は、隠したい癖やコンプレックス、人と違う部分にあることが多い。「みんなと同じ振る舞い」を目指さない。</p>
+          <p>まず直感で近いものを選んでみる：<b>アイドル系／クール系／情熱系／天然系／ストイック系</b>。どれかに寄せてみて、違和感があれば変えればいい。</p>
+        </div>
+      </details>
+    </div>
+  </section>
 
   <section class="block block--cool" id="behavior">
     <h2>01 立ち振る舞い</h2>
