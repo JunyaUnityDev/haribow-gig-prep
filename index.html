@@ -4,72 +4,98 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>案件に行く前に — HARIBOW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #15120f;
-    --bg-elevated: #1e1a16;
-    --bg-elevated-2: #241f1a;
-    --ink: #ede6da;
-    --ink-muted: #9c9184;
-    --ink-faint: #6b6459;
-    --rule: rgba(237, 230, 218, 0.14);
+    --ground: #0f0d0b;
+    --mirror: #1c1815;
+    --mirror-2: #241f1b;
+    --paper: #ece4d6;
+    --paper-muted: #a9a08e;
+    --paper-faint: #6f665a;
+    --rule: rgba(236, 228, 214, 0.13);
     --accent-cool: #7fd1d6;
     --accent-cool-soft: rgba(127, 209, 214, 0.14);
     --accent-warm: #e8a94c;
     --accent-warm-soft: rgba(232, 169, 76, 0.14);
     --accent-neutral: #a79c8a;
     --accent-neutral-soft: rgba(167, 156, 138, 0.14);
-    --shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.6);
+    --shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.7);
+    --font-display: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+    --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
   }
 
   * { box-sizing: border-box; }
 
   body {
     margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: "Hiragino Sans", "Yu Gothic", "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.7;
+    background: var(--ground);
+    color: var(--paper);
+    font-family: var(--font-body);
+    line-height: 1.8;
     -webkit-font-smoothing: antialiased;
   }
 
   .page { max-width: 1080px; margin: 0 auto; padding: 56px 24px 90px; }
 
-  .masthead { border-bottom: 1px solid var(--rule); padding-bottom: 28px; margin-bottom: 28px; }
+  .masthead {
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--rule); padding-bottom: 28px; margin-bottom: 28px;
+  }
+  .masthead::before {
+    content: ""; position: absolute; inset: -20% -40%; pointer-events: none;
+    background: linear-gradient(100deg, transparent 40%, rgba(236,228,214,0.10) 50%, transparent 60%);
+    transform: translateX(-120%);
+    animation: mirror-sweep 1.6s ease-out 0.3s 1 both;
+  }
+  @keyframes mirror-sweep {
+    to { transform: translateX(120%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .masthead::before { animation: none; display: none; }
+  }
 
-  .logo { height: 54px; width: auto; display: block; margin: 4px 0 18px; }
+  .logo { height: 48px; width: auto; display: block; margin: 4px 0 20px; position: relative; }
 
   .eyebrow {
-    font-family: "Avenir Next Condensed", "Futura", "Arial Narrow", sans-serif;
-    text-transform: uppercase; letter-spacing: 0.22em; font-size: 12px;
-    color: var(--ink-muted); margin: 0 0 14px;
+    font-family: var(--font-mono);
+    text-transform: uppercase; letter-spacing: 0.2em; font-size: 11.5px;
+    color: var(--paper-muted); margin: 0 0 16px; position: relative;
   }
 
   h1 {
-    font-family: "Avenir Next Condensed", "Futura", "Arial Narrow", sans-serif;
-    font-weight: 700; font-size: clamp(30px, 5vw, 46px);
-    letter-spacing: 0.01em; text-wrap: balance; margin: 0 0 14px;
+    font-family: var(--font-display);
+    font-weight: 700; font-size: clamp(32px, 5.4vw, 50px);
+    letter-spacing: 0.01em; text-wrap: balance; margin: 0 0 14px; position: relative;
   }
 
-  .lede { font-size: 14px; color: var(--ink-faint); max-width: 62ch; margin: 0; }
+  .lede { font-size: 14px; color: var(--paper-faint); max-width: 60ch; margin: 0; position: relative; }
 
   nav.jump {
-    display: flex; gap: 18px; flex-wrap: wrap; margin-top: 22px;
+    display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px; position: relative;
   }
   nav.jump a {
-    font-size: 12.5px; color: var(--ink-muted); text-decoration: none;
-    border: 1px solid var(--rule); padding: 6px 14px; border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 12px; color: var(--paper-muted); text-decoration: none;
+    border: 1px solid var(--rule); padding: 7px 14px; border-radius: 999px;
   }
-  nav.jump a:hover { color: var(--ink); border-color: var(--ink-faint); }
+  nav.jump a:hover { color: var(--paper); border-color: var(--paper-faint); }
 
-  section.block { margin-top: 46px; }
+  section.block { margin-top: 50px; }
 
   .block h2 {
-    font-family: "Avenir Next Condensed", "Futura", "Arial Narrow", sans-serif;
-    font-size: 22px; font-weight: 700; letter-spacing: 0.02em;
-    display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 24px; font-weight: 700; letter-spacing: 0.01em;
+    display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px;
   }
-  .block .sub { font-size: 13px; color: var(--ink-faint); margin: 0 0 22px; max-width: 62ch; }
+  .block h2 .num {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    letter-spacing: 0.04em; color: var(--paper-faint);
+  }
+  .block .sub { font-size: 13px; color: var(--paper-faint); margin: 0 0 22px; max-width: 60ch; }
 
   .block--cool h2 { color: var(--accent-cool); }
   .block--warm h2 { color: var(--accent-warm); }
@@ -84,108 +110,119 @@
   }
 
   .video-card {
-    background: var(--bg-elevated); border: 1px solid var(--rule);
-    border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
+    background: var(--mirror); border: 1px solid var(--rule);
+    border-radius: 10px; overflow: hidden; box-shadow: var(--shadow);
   }
 
   .video-frame {
     position: relative; width: 100%; aspect-ratio: 16 / 10;
-    background: var(--bg-elevated-2); cursor: pointer;
+    background: var(--mirror-2); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
   .video-frame iframe { width: 100%; height: 100%; border: 0; }
 
   .play-placeholder {
     display: flex; flex-direction: column; align-items: center; gap: 10px;
-    color: var(--ink-muted); font-size: 12.5px;
+    color: var(--paper-muted); font-size: 12px; font-family: var(--font-mono);
   }
   .play-placeholder .dot {
-    width: 46px; height: 46px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     border: 1.4px solid currentColor; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body);
   }
   .video-card.cool .play-placeholder { color: var(--accent-cool); }
   .video-card.warm .play-placeholder { color: var(--accent-warm); }
   .video-card.neutral .play-placeholder { color: var(--accent-neutral); }
 
   .video-meta { padding: 12px 14px 14px; }
-  .video-title { margin: 0; font-size: 13.5px; font-weight: 600; }
+  .video-title { margin: 0; font-size: 13.5px; font-weight: 500; }
   .video-tag {
-    display: inline-block; margin-top: 6px; font-size: 10.5px;
-    letter-spacing: 0.06em; color: var(--ink-faint); text-transform: uppercase;
+    display: inline-block; margin-top: 6px; font-size: 10px; font-family: var(--font-mono);
+    letter-spacing: 0.05em; color: var(--paper-faint); text-transform: uppercase;
   }
-  .video-open { display: block; margin-top: 8px; font-size: 11.5px; color: var(--ink-faint); text-decoration: none; }
-  .video-open:hover { color: var(--ink); }
+  .video-open { display: block; margin-top: 8px; font-size: 11px; font-family: var(--font-mono); color: var(--paper-faint); text-decoration: none; }
+  .video-open:hover { color: var(--paper); }
 
   .subgroup-label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--ink-faint); margin: 26px 0 12px;
+    font-family: var(--font-mono);
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--paper-faint); margin: 26px 0 12px;
   }
   .subgroup-label:first-child { margin-top: 0; }
 
-  /* posing diagrams (reused from star_stance_sheet) */
   .diagram-panel {
-    background: var(--bg-elevated); border: 1px solid var(--rule); border-radius: 14px;
+    background: var(--mirror); border: 1px solid var(--rule); border-radius: 12px;
     padding: 28px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 22px;
   }
   .diagram-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   @media (max-width: 560px) { .diagram-row { grid-template-columns: 1fr; } }
-  figure.diagram { margin: 0; background: var(--bg-elevated-2); border-radius: 10px; padding: 14px 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  figure.diagram { margin: 0; background: var(--mirror-2); border-radius: 8px; padding: 14px 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   figure.diagram svg { width: 100%; height: auto; max-width: 120px; }
-  figcaption { font-size: 11.5px; color: var(--ink-muted); text-align: center; line-height: 1.5; }
+  figcaption { font-size: 11px; color: var(--paper-muted); text-align: center; line-height: 1.6; }
 
   .cue-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   @media (max-width: 760px) { .cue-grid { grid-template-columns: repeat(2, 1fr); } }
-  .cue { background: var(--bg-elevated-2); border-radius: 10px; padding: 14px 14px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
+  .cue { background: var(--mirror-2); border-radius: 8px; padding: 14px 14px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
   .cue svg { width: 40px; height: 40px; }
   .cue h3 { margin: 4px 0 0; font-size: 13px; font-weight: 700; }
-  .cue p { margin: 0; font-size: 11.5px; color: var(--ink-muted); line-height: 1.5; }
+  .cue p { margin: 0; font-size: 11.5px; color: var(--paper-muted); line-height: 1.5; }
 
   ul.points { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
   ul.points li { padding-left: 18px; position: relative; font-size: 14px; }
   ul.points li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-cool); }
-  ul.points b { font-weight: 600; }
+  ul.points b { font-weight: 700; }
 
   .practice-tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .practice-tags span {
-    font-size: 12px; padding: 6px 12px; border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11.5px; padding: 6px 12px; border-radius: 999px;
     background: var(--accent-warm-soft); color: var(--accent-warm);
-    border: 1px solid var(--accent-warm); font-weight: 600;
+    border: 1px solid var(--accent-warm); font-weight: 500;
   }
 
   .ext-resources { border-top: 1px solid var(--rule); padding-top: 16px; }
-  .ext-resources p.label { margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-faint); }
-  .ext-resources a { font-size: 13px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding: 2px 0; display: block; margin-bottom: 6px; }
+  .ext-resources p.label { margin: 0 0 8px; font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--paper-faint); }
+  .ext-resources a { font-size: 13px; color: var(--paper); text-decoration: none; border-bottom: 1px solid var(--rule); padding: 2px 0; display: block; margin-bottom: 6px; }
   .ext-resources a:hover { color: var(--accent-cool); }
 
   footer.note {
     margin-top: 52px; padding-top: 22px; border-top: 1px solid var(--rule);
-    font-size: 12.5px; color: var(--ink-faint); max-width: 62ch;
+    font-size: 12px; color: var(--paper-faint); max-width: 60ch;
   }
-  footer.note a { color: var(--ink-muted); }
+  footer.note a { color: var(--paper-muted); }
 
   .faq-list { display: flex; flex-direction: column; gap: 12px; }
   .faq-item {
-    background: var(--bg-elevated); border: 1px solid var(--rule); border-radius: 12px;
+    background: var(--mirror); border: 1px solid var(--rule); border-radius: 10px;
     overflow: hidden;
   }
   .faq-item summary {
     padding: 18px 20px; cursor: pointer; list-style: none;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    font-size: 15px; font-weight: 600;
+    display: flex; align-items: center; gap: 14px;
+    font-size: 15px; font-weight: 500;
   }
   .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::after { content: "+"; font-size: 20px; color: var(--ink-faint); flex: none; }
-  .faq-item[open] summary::after { content: "\2013"; }
+  .faq-item summary .faq-num {
+    font-family: var(--font-mono); font-size: 12px; color: var(--paper-faint); flex: none;
+  }
+  .faq-item summary .faq-q { flex: 1; }
+  .faq-item summary .faq-toggle { font-size: 18px; color: var(--paper-faint); flex: none; font-family: var(--font-mono); }
+  .faq-item[open] summary .faq-toggle { color: var(--accent-cool); }
   .faq-item summary:focus-visible { outline: 2px solid var(--accent-cool); outline-offset: 2px; }
-  .faq-body { padding: 0 20px 22px; font-size: 14px; color: var(--ink); }
+  .faq-body { padding: 0 20px 22px 52px; font-size: 14px; color: var(--paper); }
   .faq-body p { margin: 0 0 12px; }
   .faq-body p:last-child { margin-bottom: 0; }
   .faq-body a.jump-link {
-    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent-cool);
+    display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono);
+    font-size: 12.5px; color: var(--accent-cool);
     text-decoration: none; border-bottom: 1px solid var(--accent-cool); padding-bottom: 1px;
   }
   .faq-body .mini-tip-list { margin: 0 0 12px; padding-left: 18px; }
   .faq-body .mini-tip-list li { margin-bottom: 6px; }
+  @media (max-width: 560px) {
+    .faq-item summary { gap: 10px; }
+    .faq-body { padding-left: 20px; }
+  }
 </style>
 </head>
 <body>
@@ -195,7 +232,7 @@
     <img class="logo" src="https://junyaunitydev.github.io/haribow-audition-second-site/assets/haribow-logo-white.png" alt="HARIBOW">
     <p class="eyebrow">案件前プレップページ</p>
     <h1>案件に行く前に</h1>
-    <p class="lede">立ち振る舞い・撮られ方・振り付け確認を1ページに集約。本番/撮影の前にひと通り目を通す用。</p>
+    <p class="lede">鏡の前で最後に整える数分間 —— 立ち振る舞い・撮られ方・振り付け確認を1ページに集約。</p>
     <nav class="jump">
       <a href="#soudan">こんな時どうする？</a>
       <a href="#behavior">01 立ち振る舞い</a>
@@ -209,28 +246,28 @@
     <p class="sub">本番前に頭をよぎりそうな悩みをタップすると、解決策が開きます。</p>
     <div class="faq-list">
       <details class="faq-item">
-        <summary>自分の見せ場がない曲パート、何していればいい？</summary>
+        <summary><span class="faq-num">01</span><span class="faq-q">自分の見せ場がない曲パート、何していればいい？</span><span class="faq-toggle">+</span></summary>
         <div class="faq-body">
           <p>見せ場がない瞬間ほど「意識」が抜けやすい。全員で音・動きを揃える瞬間は、見せ場と同じくらい会場に伝わっている。</p>
           <a class="jump-link" href="#behavior">→「全員で揃える時の意識」動画を見る</a>
         </div>
       </details>
       <details class="faq-item">
-        <summary>どうアピールする？</summary>
+        <summary><span class="faq-num">02</span><span class="faq-q">どうアピールする？</span><span class="faq-toggle">+</span></summary>
         <div class="faq-body">
           <p>じゅんやが実演で解説してる動画がある。まずそのまま真似るところから。</p>
           <a class="jump-link" href="#behavior">→「アピールの仕方解説」動画を見る</a>
         </div>
       </details>
       <details class="faq-item">
-        <summary>緊張で表情が固まる/真顔になる</summary>
+        <summary><span class="faq-num">03</span><span class="faq-q">緊張で表情が固まる/真顔になる</span><span class="faq-toggle">+</span></summary>
         <div class="faq-body">
           <p>「うー」「いー」の口の形を数回繰り返すと表情筋がほぐれる。口角は上げる、歯は見せない、顎の力を抜く。</p>
           <a class="jump-link" href="#posing">→ 表情の作り方（撮影向け）を見る</a>
         </div>
       </details>
       <details class="faq-item">
-        <summary>急に「写真撮るよ」って言われた時、とっさにどうする？</summary>
+        <summary><span class="faq-num">04</span><span class="faq-q">急に「写真撮るよ」って言われた時、とっさにどうする？</span><span class="faq-toggle">+</span></summary>
         <div class="faq-body">
           <p>3つだけ意識すればいい。</p>
           <ul class="mini-tip-list">
@@ -242,7 +279,7 @@
         </div>
       </details>
       <details class="faq-item">
-        <summary>自分のキャラクターってどうやって確立する？</summary>
+        <summary><span class="faq-num">05</span><span class="faq-q">自分のキャラクターってどうやって確立する？</span><span class="faq-toggle">+</span></summary>
         <div class="faq-body">
           <p>「なりたい自分」型か「ありのまま」型か、どちらかをはっきりさせる方が強い。中間・ハイブリッドが一番弱い。</p>
           <p>本当の武器は、隠したい癖やコンプレックス、人と違う部分にあることが多い。「みんなと同じ振る舞い」を目指さない。</p>
@@ -253,7 +290,7 @@
   </section>
 
   <section class="block block--cool" id="behavior">
-    <h2>01 立ち振る舞い</h2>
+    <h2><span class="num">01</span>立ち振る舞い</h2>
     <p class="sub">現場でのアピール・表情・意識の作り方。じゅんや／海野それぞれの解説動画。</p>
     <div class="video-grid narrow">
       <div class="video-card cool">
@@ -290,35 +327,35 @@
   </section>
 
   <section class="block block--warm" id="posing">
-    <h2>02 写真を撮られるとき・ポージング</h2>
+    <h2><span class="num">02</span>写真を撮られるとき・ポージング</h2>
     <p class="sub">立ち方の基本と表情の作り方の図解まとめ（撮影・スナップ向け）。</p>
 
     <div class="diagram-panel">
       <div class="diagram-row">
         <figure class="diagram">
           <svg viewBox="0 0 100 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="62" y1="8" x2="62" y2="134" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 4"/>
+            <line x1="62" y1="8" x2="62" y2="134" stroke="var(--paper-faint)" stroke-width="1" stroke-dasharray="2 4"/>
             <circle cx="52" cy="18" r="10" stroke="var(--accent-cool)" stroke-width="2"/>
-            <path d="M52 28 Q59 46 54 66" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="36" y1="34" x2="64" y2="39" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="40" y1="70" x2="66" y2="64" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="36" y1="34" x2="28" y2="56" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="64" y1="39" x2="71" y2="58" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="66" y1="64" x2="62" y2="131" stroke="var(--ink)" stroke-width="2.4"/>
-            <path d="M40 70 L30 96 L34 129" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="3 2"/>
+            <path d="M52 28 Q59 46 54 66" stroke="var(--paper)" stroke-width="2"/>
+            <line x1="36" y1="34" x2="64" y2="39" stroke="var(--paper)" stroke-width="2"/>
+            <line x1="40" y1="70" x2="66" y2="64" stroke="var(--paper)" stroke-width="2"/>
+            <line x1="36" y1="34" x2="28" y2="56" stroke="var(--paper)" stroke-width="2"/>
+            <line x1="64" y1="39" x2="71" y2="58" stroke="var(--paper)" stroke-width="2"/>
+            <line x1="66" y1="64" x2="62" y2="131" stroke="var(--paper)" stroke-width="2.4"/>
+            <path d="M40 70 L30 96 L34 129" stroke="var(--paper)" stroke-width="1.6" stroke-dasharray="3 2"/>
             <circle cx="62" cy="20" r="2.3" fill="var(--accent-cool)"/>
             <circle cx="64" cy="39" r="2.3" fill="var(--accent-cool)"/>
             <circle cx="66" cy="64" r="2.3" fill="var(--accent-cool)"/>
             <circle cx="62" cy="131" r="2.3" fill="var(--accent-cool)"/>
-            <text x="66" y="144" font-size="7" fill="var(--ink-faint)" text-anchor="middle">重心側</text>
-            <text x="30" y="144" font-size="7" fill="var(--ink-faint)" text-anchor="middle">緩める側</text>
+            <text x="66" y="144" font-size="7" fill="var(--paper-faint)" text-anchor="middle">重心側</text>
+            <text x="30" y="144" font-size="7" fill="var(--paper-faint)" text-anchor="middle">緩める側</text>
           </svg>
           <figcaption>片脚重心（コントラポスト）<br/>軸は体重側の耳〜肩〜腰〜くるぶし</figcaption>
         </figure>
 
         <figure class="diagram">
           <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 6C68 6 74 30 72 55C70 82 66 100 58 116C54 124 46 124 42 116C34 100 30 82 28 55C26 30 32 6 50 6Z" stroke="var(--ink-faint)" stroke-width="1.5"/>
+            <path d="M50 6C68 6 74 30 72 55C70 82 66 100 58 116C54 124 46 124 42 116C34 100 30 82 28 55C26 30 32 6 50 6Z" stroke="var(--paper-faint)" stroke-width="1.5"/>
             <circle cx="50" cy="98" r="6" fill="var(--accent-cool-soft)" stroke="var(--accent-cool)" stroke-width="2"/>
             <circle cx="33" cy="24" r="6" fill="var(--accent-cool-soft)" stroke="var(--accent-cool)" stroke-width="2"/>
             <circle cx="63" cy="30" r="6" fill="var(--accent-cool-soft)" stroke="var(--accent-cool)" stroke-width="2"/>
@@ -330,11 +367,11 @@
         <figure class="diagram">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="30" y="18" width="30" height="46" rx="8" transform="rotate(45 45 41)" stroke="var(--accent-cool)" stroke-width="2"/>
-            <path d="M38 80 L30 96 L46 92 Z" stroke="var(--ink)" stroke-width="1.6" fill="none"/>
-            <path d="M58 84 L70 94 L56 96 Z" stroke="var(--ink)" stroke-width="1.6" fill="none"/>
-            <rect x="6" y="4" width="16" height="10" rx="2" stroke="var(--ink-faint)" stroke-width="1.4"/>
-            <circle cx="14" cy="9" r="3" stroke="var(--ink-faint)" stroke-width="1.2"/>
-            <line x1="22" y1="9" x2="38" y2="30" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 3"/>
+            <path d="M38 80 L30 96 L46 92 Z" stroke="var(--paper)" stroke-width="1.6" fill="none"/>
+            <path d="M58 84 L70 94 L56 96 Z" stroke="var(--paper)" stroke-width="1.6" fill="none"/>
+            <rect x="6" y="4" width="16" height="10" rx="2" stroke="var(--paper-faint)" stroke-width="1.4"/>
+            <circle cx="14" cy="9" r="3" stroke="var(--paper-faint)" stroke-width="1.2"/>
+            <line x1="22" y1="9" x2="38" y2="30" stroke="var(--paper-faint)" stroke-width="1" stroke-dasharray="2 3"/>
           </svg>
           <figcaption>カメラに対し体を45度<br/>つま先はV字・Tスタンス</figcaption>
         </figure>
@@ -383,7 +420,7 @@
   </section>
 
   <section class="block block--neutral" id="choreo">
-    <h2>03 振り付け確認</h2>
+    <h2><span class="num">03</span>振り付け確認</h2>
     <p class="sub">パート別の振り付け解説動画。担当パートを事前確認。</p>
 
     <div class="subgroup-label">全員振り</div>
