@@ -11,64 +11,50 @@
 <style>
   /* HARIBOW パレット：ネイビー #1f294c × アイボリー #e4e3df、差し色 #b7712c */
   :root {
-    --ink: #1f294c;
-    --ink-2: #4a4f63;
-    --muted: #8a8a83;
-    --paper: #f6f4f0;
-    --card: #ffffff;
-    --line: #e4e1da;
-    --ivory: #e4e3df;
-    --accent: #b7712c;
-    --accent-soft: #f4e9dc;
-    --err: #8e0d11;
-    --err-soft: #f3dddc;
-    --ok: #153132;
-    --ok-soft: #d8ebe6;
+    --ink: #1f294c; --ink-2: #4a4f63; --muted: #8a8a83;
+    --paper: #f6f4f0; --card: #fff; --line: #e4e1da; --ivory: #e4e3df;
+    --accent: #b7712c; --err: #8e0d11; --err-soft: #f3dddc; --ok: #153132;
     --font: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
     --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
-    --r: 14px;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); line-height: 1.7; -webkit-font-smoothing: antialiased; }
   .page { max-width: 680px; margin: 0 auto; padding: 0 16px 80px; }
 
-  header.top { background: var(--ink); color: var(--ivory); padding: 36px 0 30px; margin-bottom: 26px; }
+  header.top { background: var(--ink); color: var(--ivory); padding: 32px 0 28px; margin-bottom: 24px; }
   header.top .in { max-width: 680px; margin: 0 auto; padding: 0 16px; }
-  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; opacity: .7; margin: 0 0 10px; }
-  h1 { font-size: 28px; margin: 0 0 12px; letter-spacing: .02em; }
-  .rules { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .rules li { font-size: 12.5px; border: 1px solid rgba(228,227,223,.3); border-radius: 999px; padding: 3px 12px; }
+  h1 { font-size: 26px; margin: 0 0 12px; letter-spacing: .02em; }
+  .rules { margin: 0; padding: 0; list-style: none; font-size: 13px; opacity: .85; }
+  .rules li { padding-left: 1em; text-indent: -1em; }
+  .rules li::before { content: "・"; }
 
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 22px 20px; margin-bottom: 16px; }
-  .card h2 { font-size: 15px; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
-  .card h2 .n { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 20px; margin-bottom: 16px; }
+  .card > h2 { font-size: 15.5px; margin: 0 0 16px; }
 
-  .field { margin-bottom: 18px; }
+  .field { margin-bottom: 16px; }
   .field:last-child { margin-bottom: 0; }
-  label.l { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .l { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
   .req { color: var(--accent); font-size: 11px; margin-left: 6px; font-weight: 500; }
   .opt { color: var(--muted); font-size: 11px; margin-left: 6px; font-weight: 500; }
   .hint { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
 
   input[type=text], input[type=date], select, textarea {
     width: 100%; font: inherit; font-size: 16px; color: var(--ink);
-    background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
     appearance: none; -webkit-appearance: none;
   }
   textarea { min-height: 76px; resize: vertical; }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ink); background: #fff; box-shadow: 0 0 0 3px rgba(31,41,76,.08); }
   select { background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%);
-    background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 36px; }
+    background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 32px; }
 
-  .choices { display: grid; gap: 10px; }
-  .choices.two { grid-template-columns: 1fr 1fr; }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .choice { position: relative; }
   .choice input { position: absolute; opacity: 0; pointer-events: none; }
   .choice span { display: block; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; cursor: pointer; background: var(--paper); height: 100%; }
   .choice b { display: block; font-size: 14.5px; }
   .choice small { display: block; font-size: 12px; color: var(--muted); line-height: 1.55; margin-top: 3px; }
   .choice input:checked + span { border-color: var(--ink); background: #fff; box-shadow: inset 0 0 0 1px var(--ink); }
-  .choice input:focus-visible + span { box-shadow: 0 0 0 3px rgba(31,41,76,.15); }
 
   .seg { display: flex; flex-wrap: wrap; gap: 6px; }
   .seg label { position: relative; }
@@ -76,21 +62,41 @@
   .seg span { display: inline-block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 13.5px; cursor: pointer; background: var(--paper); }
   .seg input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--ivory); }
 
-  .item { border: 1px solid var(--line); border-radius: 12px; padding: 16px 14px; margin-bottom: 12px; background: #fcfbf9; }
-  .item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .item-head .t { font-family: var(--mono); font-size: 12px; color: var(--accent); }
-  .item-head button { border: 0; background: none; color: var(--muted); font: inherit; font-size: 12.5px; cursor: pointer; padding: 4px 6px; }
+  .sub { border: 1px solid var(--line); border-radius: 12px; padding: 16px 14px; margin-bottom: 12px; background: #fcfbf9; }
+  .sub-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sub-head .t { font-weight: 700; font-size: 14px; }
+  .sub-head .t .tag { font-family: var(--mono); color: var(--accent); margin-right: 6px; }
+  .rm { border: 0; background: none; color: var(--muted); font: inherit; font-size: 12.5px; cursor: pointer; padding: 4px 6px; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .range { display: none; }
-  .item.is-extend .range { display: block; }
 
-  .add { width: 100%; border: 1px dashed #c9c5bb; background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; border-radius: 12px; padding: 12px; cursor: pointer; }
-  .add:hover { border-color: var(--ink); color: var(--ink); }
+  .file { display: flex; align-items: center; gap: 10px; border: 1px dashed #c9c5bb; border-radius: 10px; padding: 12px; background: var(--paper); cursor: pointer; }
+  .file input { display: none; }
+  .file .btn { flex: none; background: var(--ink); color: var(--ivory); font-size: 13px; border-radius: 8px; padding: 6px 12px; }
+  .file .name { font-size: 13.5px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar { height: 4px; background: var(--line); border-radius: 2px; margin-top: 8px; overflow: hidden; display: none; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--ink); transition: width .2s; }
+  .up-ok { color: var(--ok); }
+
+  .songs { display: grid; gap: 8px; margin-top: 4px; }
+  .song { display: grid; grid-template-columns: 56px 1fr 18px 1fr; align-items: center; gap: 6px; }
+  .song span { font-size: 13px; color: var(--ink-2); }
+  .song em { font-style: normal; text-align: center; color: var(--muted); }
+  .song input { text-align: center; padding: 8px 6px; }
+
+  .when { display: none; }
+  .joins { display: grid; gap: 8px; }
+  .join { display: grid; grid-template-columns: 22px 1fr 1fr 28px; gap: 6px; align-items: center; }
+  .join .k { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .join .rm { padding: 0; }
+
+  .add { width: 100%; border: 1px dashed #c9c5bb; background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; border-radius: 12px; padding: 11px; cursor: pointer; }
+  .add.small { font-size: 13px; padding: 8px; margin-top: 8px; }
 
   .submit { width: 100%; border: 0; background: var(--ink); color: var(--ivory); font: inherit; font-size: 16px; font-weight: 700; border-radius: 12px; padding: 16px; cursor: pointer; margin-top: 6px; }
   .submit[disabled] { opacity: .5; cursor: progress; }
   .msg { display: none; border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-top: 12px; }
   .msg.err { display: block; background: var(--err-soft); color: var(--err); }
+  .msg.info { display: block; background: #eef1f6; color: var(--ink); }
 
   .done { display: none; text-align: center; padding: 40px 20px; }
   .done .no { font-family: var(--mono); font-size: 34px; color: var(--accent); margin: 8px 0 4px; }
@@ -99,21 +105,19 @@
   .is-done .done { display: block; }
 
   @media (max-width: 480px) {
-    .choices.two, .row2 { grid-template-columns: 1fr; }
-    h1 { font-size: 24px; }
+    .choices, .row2 { grid-template-columns: 1fr; }
+    h1 { font-size: 23px; }
   }
 </style>
 </head>
 <body>
 <header class="top">
   <div class="in">
-    <p class="eyebrow">HARIBOW · MUSIC EDIT</p>
     <h1>曲編集の依頼</h1>
     <ul class="rules">
-      <li>依頼はこのフォームから</li>
-      <li>納品日は今日から3日後以降</li>
-      <li>確定の依頼は後から変更しない</li>
-      <li>納品は wav</li>
+      <li>納品日は今日から3日後以降で選べます。</li>
+      <li>「確定」で依頼した内容は、後から変更できません。</li>
+      <li>音源は wav でアップロードしてください。納品も wav です。</li>
     </ul>
   </div>
 </header>
@@ -121,48 +125,45 @@
 <main class="page" id="app">
 <form id="f" novalidate>
   <section class="card">
-    <h2><span class="n">01</span>だれの・どの演目</h2>
+    <h2>依頼者・演目・納品日</h2>
     <div class="field">
       <label class="l" for="requester">依頼者<span class="req">必須</span></label>
-      <input type="text" id="requester" placeholder="フルネーム（例 坂田潤弥）" autocomplete="name" required>
-      <p class="hint">最終OKを出す人を1人。その人のフルネームで出してください。</p>
+      <input type="text" id="requester" placeholder="フルネーム" autocomplete="name">
+      <p class="hint">最終OKを出す人の名前です。</p>
     </div>
     <div class="field">
       <label class="l" for="show">演目・案件名<span class="req">必須</span></label>
-      <input type="text" id="show" placeholder="例 ラスベガス公演" required>
+      <input type="text" id="show" placeholder="例 ラスベガス公演">
     </div>
     <div class="field">
       <label class="l" for="due">納品日<span class="req">必須</span></label>
-      <input type="date" id="due" required>
-      <p class="hint" id="due-hint">音源が必要な日。この日に完成版を送ります。</p>
+      <input type="date" id="due">
+      <p class="hint" id="due-hint"></p>
     </div>
-  </section>
-
-  <section class="card">
-    <h2><span class="n">02</span>この後、変更はありそう？</h2>
-    <div class="choices two">
-      <label class="choice"><input type="radio" name="lock" value="確定（この後変更しない）"><span><b>確定</b><small>この後は変更しない。仕上がった音で納品します。</small></span></label>
-      <label class="choice"><input type="radio" name="lock" value="変更の可能性あり"><span><b>変更の可能性あり</b><small>まずカウントだけ合わせた版を送り、カウントが固まってから音を仕上げます。</small></span></label>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2><span class="n">03</span>元にする音源</h2>
     <div class="field">
-      <label class="l" for="source">音源<span class="req">必須</span></label>
-      <input type="text" id="source" placeholder="Drive のリンク、または「前回の確定版」" required>
+      <span class="l">変更予定<span class="req">必須</span></span>
+      <div class="choices">
+        <label class="choice"><input type="radio" name="lock" value="確定"><span><b>確定</b><small>この後の変更はありません。</small></span></label>
+        <label class="choice"><input type="radio" name="lock" value="変更の可能性あり"><span><b>変更の可能性あり</b><small>先にカウントを合わせた版を送り、カウントが決まってから音を仕上げます。</small></span></label>
+      </div>
     </div>
   </section>
 
   <section class="card">
-    <h2><span class="n">04</span>依頼内容</h2>
-    <div id="items"></div>
-    <button type="button" class="add" id="add">＋ 依頼をもう1つ足す</button>
+    <h2>音源</h2>
+    <div id="sources"></div>
+    <button type="button" class="add" id="add-src">＋ 音源を追加</button>
   </section>
 
   <section class="card">
-    <h2><span class="n">05</span>メモ<span class="opt">任意</span></h2>
-    <textarea id="note" placeholder="伝えておきたいこと"></textarea>
+    <h2>依頼内容</h2>
+    <div id="items"></div>
+    <button type="button" class="add" id="add-item">＋ 依頼を追加</button>
+  </section>
+
+  <section class="card">
+    <h2>メモ<span class="opt">任意</span></h2>
+    <textarea id="note"></textarea>
   </section>
 
   <button type="submit" class="submit" id="submit">依頼を送る</button>
@@ -170,37 +171,65 @@
 </form>
 
 <section class="done" aria-live="polite">
-  <p>受け付けました</p>
+  <p>受け付けました。</p>
   <div class="no" id="done-no"></div>
-  <p>確認用の音源ができたら連絡します。<br>この画面は閉じて大丈夫です。</p>
+  <p>確認用の音源ができたら連絡します。</p>
 </section>
 </main>
 
-<template id="item-tpl">
-  <div class="item">
-    <div class="item-head"><span class="t"></span><button type="button" class="rm">削除</button></div>
+<template id="src-tpl">
+  <div class="sub src">
+    <div class="sub-head"><span class="t"><span class="tag"></span></span><button type="button" class="rm">削除</button></div>
     <div class="field">
-      <label class="l">種類<span class="req">必須</span></label>
+      <label class="file"><input type="file" accept=".wav,audio/wav,audio/x-wav"><span class="btn">wavを選ぶ</span><span class="name">選ばれていません</span></label>
+      <div class="bar"><i></i></div>
+    </div>
+    <div class="field">
+      <label class="l">曲数<span class="req">必須</span></label>
+      <select class="count"><option value="">選んでください</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+    </div>
+    <div class="field songs-field" style="display:none">
+      <label class="l">各曲の始まりと終わり<span class="req">必須</span></label>
+      <div class="songs"></div>
+      <p class="hint">再生画面の表示のままで大丈夫です。こちらの解析とずれがないか確認するために使います。</p>
+    </div>
+  </div>
+</template>
+
+<template id="item-tpl">
+  <div class="sub item">
+    <div class="sub-head"><span class="t"><span class="tag"></span></span><button type="button" class="rm">削除</button></div>
+    <div class="field">
+      <label class="l">種類<span class="req">必須</span><span class="opt">複数選べます</span></label>
       <div class="seg type"></div>
     </div>
-    <div class="row2">
+    <div class="when w-target field">
+      <label class="l">対象の曲<span class="opt">任意</span></label>
+      <div class="row2"><select class="t-src"></select><select class="t-song"></select></div>
+    </div>
+    <div class="when w-cut row2">
       <div class="field">
         <label class="l">時間<span class="req">必須</span></label>
         <input type="text" class="time" placeholder="例 1:28〜1:53">
       </div>
       <div class="field">
         <label class="l">量<span class="req">必須</span></label>
-        <input type="text" class="amount" placeholder="例 4エイト／4カウント">
+        <input type="text" class="amount" placeholder="例 4エイト、4カウント">
       </div>
     </div>
-    <p class="hint" style="margin:-4px 0 16px">時間は再生画面を見たままでOK。数秒のずれはこちらで合わせます。</p>
-    <div class="field range">
-      <label class="l">伸ばす位置の幅<span class="opt">あると継ぎ目がきれい</span></label>
+    <div class="when w-extend field">
+      <label class="l">伸ばす位置の幅<span class="opt">任意</span></label>
       <input type="text" class="rng" placeholder="例 2曲目の5〜9エイト目のどこか">
+      <p class="hint">幅があると、継ぎ目が自然な位置を選べます。</p>
     </div>
-    <div class="field">
-      <label class="l">何曲目の何エイト目<span class="opt">任意</span></label>
-      <input type="text" class="eight" placeholder="例 2曲目の3エイト目から">
+    <div class="when w-join field">
+      <label class="l">繋ぐ順番<span class="req">必須</span></label>
+      <div class="joins"></div>
+      <button type="button" class="add small add-join">＋ 曲を追加</button>
+    </div>
+    <div class="when w-bpm field">
+      <label class="l">BPM<span class="req">必須</span></label>
+      <input type="text" class="bpm" placeholder="例 1曲目 123、2曲目 100">
     </div>
     <div class="field">
       <label class="l">補足<span class="opt">任意</span></label>
@@ -214,88 +243,238 @@
   const API = 'https://script.google.com/macros/s/AKfycbwcMTOHyxeHWxIuK7H12xz_0E3bmZNHCltRYoa_LbMVlVMa9MEeQWh1Bffjvgejz3S0Mg/exec';
   const TYPES = ['削る', '伸ばす', '繋ぐ', 'BPM変更', 'その他'];
   const LEAD = 3;
-  const $ = s => document.querySelector(s);
-  const items = $('#items');
-  let seq = 0;
+  const LETTERS = 'ABCDEFGH';
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const srcBox = $('#sources'), itemBox = $('#items');
 
   // 納品日：今日（日本時間）から3日後以降
   const jst = new Date(Date.now() + 9 * 3600e3);
   const minD = new Date(Date.UTC(jst.getUTCFullYear(), jst.getUTCMonth(), jst.getUTCDate() + LEAD));
   const iso = minD.toISOString().slice(0, 10);
+  const minTxt = `${minD.getUTCMonth() + 1}月${minD.getUTCDate()}日`;
   $('#due').min = iso;
-  $('#due-hint').textContent = `音源が必要な日。この日に完成版を送ります。${minD.getUTCMonth() + 1}月${minD.getUTCDate()}日以降を選べます。`;
+  $('#due-hint').textContent = `音源が必要な日です。${minTxt}以降を選べます。`;
 
-  function renumber() {
-    [...items.children].forEach((el, i) => {
-      el.querySelector('.t').textContent = `依頼 ${String(i + 1).padStart(2, '0')}`;
-      el.querySelector('.rm').style.visibility = items.children.length > 1 ? 'visible' : 'hidden';
+  // ── 音源 ──
+  const sources = () => $$('.src', srcBox).map((el, i) => ({ el, label: LETTERS[i], count: Number($('.count', el).value) || 0 }));
+
+  function renumberSrc() {
+    $$('.src', srcBox).forEach((el, i) => {
+      $('.t', el).lastChild.textContent = '音源' + LETTERS[i];
+      $('.rm', el).style.visibility = srcBox.children.length > 1 ? 'visible' : 'hidden';
     });
+    refreshSongSelects();
+  }
+  function addSource() {
+    const el = $('#src-tpl').content.firstElementChild.cloneNode(true);
+    $('.t', el).append(document.createTextNode(''));
+    const fileIn = $('input[type=file]', el);
+    fileIn.addEventListener('change', () => {
+      const f = fileIn.files[0];
+      el.file = f; el.fileId = null;
+      $('.name', el).textContent = f ? f.name : '選ばれていません';
+      $('.name', el).classList.remove('up-ok');
+    });
+    $('.count', el).addEventListener('change', () => { drawSongs(el); refreshSongSelects(); });
+    $('.rm', el).addEventListener('click', () => { el.remove(); renumberSrc(); });
+    srcBox.appendChild(el);
+    renumberSrc();
+  }
+  function drawSongs(el) {
+    const n = Number($('.count', el).value) || 0;
+    const box = $('.songs', el);
+    const old = $$('.song', box).map(r => [$('.s', r).value, $('.e', r).value]);
+    box.innerHTML = '';
+    for (let k = 0; k < n; k++) {
+      const r = document.createElement('div');
+      r.className = 'song';
+      r.innerHTML = `<span>${k + 1}曲目</span><input type="text" class="s" inputmode="decimal" placeholder="0:00"><em>〜</em><input type="text" class="e" inputmode="decimal" placeholder="1:18">`;
+      if (old[k]) { $('.s', r).value = old[k][0]; $('.e', r).value = old[k][1]; }
+      box.appendChild(r);
+    }
+    $('.songs-field', el).style.display = n ? '' : 'none';
+  }
+  $('#add-src').addEventListener('click', addSource);
+
+  // 曲の選択肢（音源 × 曲番号）を全依頼で更新
+  function fillSrcSelect(sel, keepEmpty) {
+    const v = sel.value;
+    sel.innerHTML = (keepEmpty ? '<option value="">音源</option>' : '') + sources().map(s => `<option value="${s.label}">音源${s.label}</option>`).join('');
+    if ([...sel.options].some(o => o.value === v)) sel.value = v;
+  }
+  function fillSongSelect(sel, label, keepEmpty) {
+    const v = sel.value;
+    const s = sources().find(x => x.label === label);
+    const n = s ? s.count : 0;
+    sel.innerHTML = (keepEmpty || !n ? '<option value="">何曲目</option>' : '') + Array.from({ length: n }, (_, k) => `<option value="${k + 1}">${k + 1}曲目</option>`).join('');
+    if ([...sel.options].some(o => o.value === v)) sel.value = v;
+  }
+  function wirePair(srcSel, songSel, keepEmpty) {
+    fillSrcSelect(srcSel, keepEmpty);
+    fillSongSelect(songSel, srcSel.value, keepEmpty);
+    srcSel.onchange = () => fillSongSelect(songSel, srcSel.value, keepEmpty);
+  }
+  function refreshSongSelects() {
+    $$('.item', itemBox).forEach(el => {
+      wirePair($('.t-src', el), $('.t-song', el), true);
+      $$('.join', el).forEach(j => wirePair($('.j-src', j), $('.j-song', j), false));
+    });
+  }
+
+  // ── 依頼内容 ──
+  function renumberItems() {
+    $$('.item', itemBox).forEach((el, i) => {
+      $('.tag', el).textContent = String(i + 1).padStart(2, '0');
+      $('.t', el).lastChild.textContent = '依頼';
+      $('.rm', el).style.visibility = itemBox.children.length > 1 ? 'visible' : 'hidden';
+    });
+  }
+  function selectedTypes(el) { return $$('.type input:checked', el).map(i => i.value); }
+  function showWhen(el) {
+    const t = selectedTypes(el);
+    const has = x => t.includes(x);
+    $('.w-target', el).style.display = (has('削る') || has('伸ばす') || has('BPM変更') || has('その他')) ? 'block' : 'none';
+    $('.w-cut', el).style.display = (has('削る') || has('伸ばす')) ? 'grid' : 'none';
+    $('.w-extend', el).style.display = has('伸ばす') ? 'block' : 'none';
+    $('.w-join', el).style.display = has('繋ぐ') ? 'block' : 'none';
+    $('.w-bpm', el).style.display = has('BPM変更') ? 'block' : 'none';
+  }
+  function addJoin(el) {
+    const j = document.createElement('div');
+    j.className = 'join';
+    j.innerHTML = `<span class="k"></span><select class="j-src"></select><select class="j-song"></select><button type="button" class="rm">×</button>`;
+    $('.rm', j).addEventListener('click', () => { j.remove(); renumberJoins(el); });
+    $('.joins', el).appendChild(j);
+    wirePair($('.j-src', j), $('.j-song', j), false);
+    renumberJoins(el);
+  }
+  function renumberJoins(el) {
+    const js = $$('.join', el);
+    js.forEach((j, i) => { $('.k', j).textContent = i + 1; $('.rm', j).style.visibility = js.length > 2 ? 'visible' : 'hidden'; });
   }
   function addItem() {
     const el = $('#item-tpl').content.firstElementChild.cloneNode(true);
-    const name = 'type' + (seq++);
-    el.querySelector('.type').innerHTML = TYPES.map(t =>
-      `<label><input type="radio" name="${name}" value="${t}"><span>${t}</span></label>`).join('');
-    el.querySelector('.type').addEventListener('change', e => el.classList.toggle('is-extend', e.target.value === '伸ばす'));
-    el.querySelector('.rm').addEventListener('click', () => { el.remove(); renumber(); });
-    items.appendChild(el);
-    renumber();
+    $('.t', el).append(document.createTextNode(''));
+    $('.type', el).innerHTML = TYPES.map(t => `<label><input type="checkbox" value="${t}"><span>${t}</span></label>`).join('');
+    $('.type', el).addEventListener('change', () => showWhen(el));
+    $('.add-join', el).addEventListener('click', () => addJoin(el));
+    $('.rm', el).addEventListener('click', () => { el.remove(); renumberItems(); });
+    itemBox.appendChild(el);
+    addJoin(el); addJoin(el);
+    wirePair($('.t-src', el), $('.t-song', el), true);
+    showWhen(el);
+    renumberItems();
   }
-  $('#add').addEventListener('click', addItem);
+  $('#add-item').addEventListener('click', addItem);
+  addSource();
   addItem();
 
+  // ── 送信 ──
+  const TIME = /^\d{1,2}:\d{2}(\.\d+)?$/;
+  const normTime = v => v.trim().replace(/：/g, ':').replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0));
   function collect() {
     return {
       requester: $('#requester').value.trim(),
       show: $('#show').value.trim(),
       due: $('#due').value,
-      lock: (document.querySelector('input[name=lock]:checked') || {}).value || '',
-      source: $('#source').value.trim(),
+      lock: ($('input[name=lock]:checked') || {}).value || '',
       note: $('#note').value.trim(),
-      items: [...items.children].map(el => ({
-        type: (el.querySelector('.type input:checked') || {}).value || '',
-        time: el.querySelector('.time').value.trim(),
-        amount: el.querySelector('.amount').value.trim(),
-        range: el.querySelector('.rng').value.trim(),
-        eight: el.querySelector('.eight').value.trim(),
-        detail: el.querySelector('.detail').value.trim(),
+      sources: sources().map(s => ({
+        label: s.label, el: s.el, file: s.el.file,
+        songs: $$('.song', s.el).map(r => ({ start: normTime($('.s', r).value), end: normTime($('.e', r).value) })),
       })),
+      items: $$('.item', itemBox).map(el => {
+        const t = selectedTypes(el);
+        const cut = t.includes('削る') || t.includes('伸ばす');
+        return {
+          types: t,
+          target: { src: $('.t-src', el).value, song: $('.t-song', el).value },
+          time: cut ? $('.time', el).value.trim() : '',
+          amount: cut ? $('.amount', el).value.trim() : '',
+          range: t.includes('伸ばす') ? $('.rng', el).value.trim() : '',
+          joins: t.includes('繋ぐ') ? $$('.join', el).map(j => ({ src: $('.j-src', j).value, song: $('.j-song', j).value })).filter(x => x.src && x.song) : [],
+          bpm: t.includes('BPM変更') ? $('.bpm', el).value.trim() : '',
+          detail: $('.detail', el).value.trim(),
+        };
+      }),
     };
   }
   function check(b) {
-    if (!b.requester) return '依頼者の名前を書いてください';
-    if (!b.show) return '演目・案件名を書いてください';
-    if (!b.due) return '納品日を選んでください';
-    if (b.due < iso) return `納品日は ${minD.getUTCMonth() + 1}月${minD.getUTCDate()}日以降を選んでください`;
-    if (!b.lock) return '「この後、変更はありそう？」を選んでください';
-    if (!b.source) return '元にする音源を書いてください';
+    if (!b.requester) return '依頼者の名前を入力してください。';
+    if (!b.show) return '演目・案件名を入力してください。';
+    if (!b.due) return '納品日を選んでください。';
+    if (b.due < iso) return `納品日は${minTxt}以降を選んでください。`;
+    if (!b.lock) return '変更予定を選んでください。';
+    for (const s of b.sources) {
+      if (!s.file) return `音源${s.label}の wav を選んでください。`;
+      if (!/\.wav$/i.test(s.file.name)) return `音源${s.label}は wav のファイルを選んでください。`;
+      if (!s.songs.length) return `音源${s.label}の曲数を選んでください。`;
+      for (let k = 0; k < s.songs.length; k++) {
+        if (!TIME.test(s.songs[k].start) || !TIME.test(s.songs[k].end)) return `音源${s.label}の${k + 1}曲目：始まりと終わりを 0:00 の形で入力してください。`;
+      }
+    }
     for (let i = 0; i < b.items.length; i++) {
-      const it = b.items[i];
-      if (!it.type) return `依頼 ${i + 1}：種類を選んでください`;
-      if (!it.time) return `依頼 ${i + 1}：時間を書いてください（例 1:28〜1:53）`;
-      if (!['その他', 'BPM変更'].includes(it.type) && !it.amount) return `依頼 ${i + 1}：量を書いてください（例 4エイト）`;
+      const it = b.items[i], n = `依頼${i + 1}：`;
+      if (!it.types.length) return n + '種類を選んでください。';
+      if ((it.types.includes('削る') || it.types.includes('伸ばす')) && (!it.time || !it.amount)) return n + '時間と量を入力してください。';
+      if (it.types.includes('繋ぐ') && it.joins.length < 2) return n + '繋ぐ曲を2つ以上選んでください。';
+      if (it.types.includes('BPM変更') && !it.bpm) return n + 'BPMを入力してください。';
+      if (it.types.includes('その他') && !it.detail) return n + '内容を補足に入力してください。';
     }
     return '';
   }
-  function showErr(t) { const m = $('#msg'); m.textContent = t; m.className = 'msg err'; m.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+  function say(t, kind = 'err') { const m = $('#msg'); m.textContent = t; m.className = 'msg ' + kind; if (kind === 'err') m.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+
+  async function post(body) {
+    const r = await fetch(API, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+    return r.json();
+  }
+  // Drive へ直接アップロード（GAS が作った resumable URL に PUT）。進み具合をバーに出す
+  function putFile(url, file, el) {
+    return new Promise((ok, ng) => {
+      const x = new XMLHttpRequest();
+      const bar = $('.bar', el), fill = $('.bar i', el);
+      bar.style.display = 'block';
+      x.open('PUT', url);
+      x.upload.onprogress = e => { if (e.lengthComputable) fill.style.width = (e.loaded / e.total * 100) + '%'; };
+      x.onload = () => {
+        if (x.status === 200 || x.status === 201) { try { ok(JSON.parse(x.responseText).id); } catch (e) { ng(e); } }
+        else ng(new Error('upload ' + x.status));
+      };
+      x.onerror = () => ng(new Error('upload network'));
+      x.send(file);
+    });
+  }
 
   $('#f').addEventListener('submit', async e => {
     e.preventDefault();
     const b = collect();
     const err = check(b);
-    if (err) return showErr(err);
-    $('#msg').className = 'msg';
+    if (err) return say(err);
     const btn = $('#submit');
-    btn.disabled = true; btn.textContent = '送信中…';
+    btn.disabled = true;
     try {
-      const r = await fetch(API, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) });
-      const d = await r.json();
-      if (!d.ok) throw new Error(d.error || '受付できませんでした');
+      for (const s of b.sources) {
+        if (s.el.fileId) { s.fileId = s.el.fileId; continue; }  // やり直す時は上げ直さない
+        btn.textContent = `音源${s.label}をアップロード中…`;
+        say(`音源${s.label}をアップロードしています。画面を閉じずにお待ちください。`, 'info');
+        const u = await post({ action: 'upload', requester: b.requester, name: s.file.name, size: s.file.size, origin: location.origin });
+        if (!u.ok) throw new Error(u.error);
+        s.fileId = s.el.fileId = await putFile(u.url, s.file, s.el);
+        $('.name', s.el).textContent = '✓ ' + s.file.name;
+        $('.name', s.el).classList.add('up-ok');
+      }
+      btn.textContent = '送信中…';
+      say('送信しています。', 'info');
+      const body = { ...b, sources: b.sources.map(s => ({ label: s.label, fileId: s.fileId, name: s.file.name, songs: s.songs })) };
+      const d = await post(body);
+      if (!d.ok) throw new Error(d.error);
       $('#done-no').textContent = d.no;
       $('#app').classList.add('is-done');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (x) {
-      showErr(x.message && !/JSON|fetch/i.test(x.message) ? x.message : '送信できませんでした。電波のいい所でもう一度送ってください');
+      say(x.message && !/JSON|fetch|upload/i.test(x.message) ? x.message : '送信できませんでした。もう一度試してください。');
       btn.disabled = false; btn.textContent = '依頼を送る';
     }
   });
