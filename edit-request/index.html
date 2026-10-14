@@ -94,6 +94,8 @@
 
   .submit { width: 100%; border: 0; background: var(--ink); color: var(--ivory); font: inherit; font-size: 16px; font-weight: 700; border-radius: 12px; padding: 16px; cursor: pointer; margin-top: 6px; }
   .submit[disabled] { opacity: .5; cursor: progress; }
+  .ferr { color: var(--err); font-size: 13px; font-weight: 700; margin: 0 0 6px; }
+  .has-err input, .has-err select, .has-err .file, .has-err .seg span, .has-err .choice span { border-color: var(--err); }
   .msg { display: none; border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-top: 12px; }
   .msg.err { display: block; background: var(--err-soft); color: var(--err); }
   .msg.info { display: block; background: #eef1f6; color: var(--ink); }
@@ -140,7 +142,7 @@
       <input type="date" id="due">
       <p class="hint" id="due-hint"></p>
     </div>
-    <div class="field">
+    <div class="field f-lock">
       <span class="l">変更予定<span class="req">必須</span></span>
       <div class="choices">
         <label class="choice"><input type="radio" name="lock" value="確定"><span><b>確定</b><small>この後の変更はありません。</small></span></label>
@@ -180,11 +182,11 @@
 <template id="src-tpl">
   <div class="sub src">
     <div class="sub-head"><span class="t"><span class="tag"></span></span><button type="button" class="rm">削除</button></div>
-    <div class="field">
+    <div class="field f-file">
       <label class="file"><input type="file" accept=".wav,audio/wav,audio/x-wav"><span class="btn">wavを選ぶ</span><span class="name">選ばれていません</span></label>
       <div class="bar"><i></i></div>
     </div>
-    <div class="field">
+    <div class="field f-count">
       <label class="l">曲数<span class="req">必須</span></label>
       <select class="count"><option value="">選んでください</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
     </div>
@@ -199,7 +201,7 @@
 <template id="item-tpl">
   <div class="sub item">
     <div class="sub-head"><span class="t"><span class="tag"></span></span><button type="button" class="rm">削除</button></div>
-    <div class="field">
+    <div class="field f-type">
       <label class="l">種類<span class="req">必須</span><span class="opt">複数選べます</span></label>
       <div class="seg type"></div>
     </div>
@@ -208,11 +210,11 @@
       <div class="row2"><select class="t-src"></select><select class="t-song"></select></div>
     </div>
     <div class="when w-cut row2">
-      <div class="field">
+      <div class="field f-time">
         <label class="l">時間<span class="req">必須</span></label>
         <input type="text" class="time" placeholder="例 1:28〜1:53">
       </div>
-      <div class="field">
+      <div class="field f-amount">
         <label class="l">量<span class="req">必須</span></label>
         <input type="text" class="amount" placeholder="例 4エイト、4カウント">
       </div>
@@ -231,7 +233,7 @@
       <label class="l">BPM<span class="req">必須</span></label>
       <input type="text" class="bpm" placeholder="例 1曲目 123、2曲目 100">
     </div>
-    <div class="field">
+    <div class="field f-detail">
       <label class="l">補足<span class="opt">任意</span></label>
       <input type="text" class="detail" placeholder="例 サビ前は残したい">
     </div>
@@ -400,31 +402,55 @@
       }),
     };
   }
+  // 足りない所を [欄, 文言] で全部集める（欄の上に赤字、下のまとめにも出す）
   function check(b) {
-    if (!b.requester) return '依頼者の名前を入力してください。';
-    if (!b.show) return '演目・案件名を入力してください。';
-    if (!b.due) return '納品日を選んでください。';
-    if (b.due < iso) return `納品日は${minTxt}以降を選んでください。`;
-    if (!b.lock) return '変更予定を選んでください。';
+    const E = [];
+    const fieldOf = sel => $(sel).closest('.field');
+    if (!b.requester) E.push([fieldOf('#requester'), '依頼者の名前を入力してください。']);
+    if (!b.show) E.push([fieldOf('#show'), '演目・案件名を入力してください。']);
+    if (!b.due) E.push([fieldOf('#due'), '納品日を選んでください。']);
+    else if (b.due < iso) E.push([fieldOf('#due'), `納品日は${minTxt}以降を選んでください。`]);
+    if (!b.lock) E.push([$('.f-lock'), '変更予定を選んでください。']);
     for (const s of b.sources) {
-      if (!s.file) return `音源${s.label}の wav を選んでください。`;
-      if (!/\.wav$/i.test(s.file.name)) return `音源${s.label}は wav のファイルを選んでください。`;
-      if (!s.songs.length) return `音源${s.label}の曲数を選んでください。`;
-      for (let k = 0; k < s.songs.length; k++) {
-        if (!TIME.test(s.songs[k].start) || !TIME.test(s.songs[k].end)) return `音源${s.label}の${k + 1}曲目：始まりと終わりを 0:00 の形で入力してください。`;
+      if (!s.file) E.push([$('.f-file', s.el), `音源${s.label}の wav を選んでください。`]);
+      else if (!/\.wav$/i.test(s.file.name)) E.push([$('.f-file', s.el), `音源${s.label}は wav のファイルを選んでください。`]);
+      if (!s.songs.length) E.push([$('.f-count', s.el), `音源${s.label}の曲数を選んでください。`]);
+      else {
+        const bad = s.songs.map((g, k) => (!TIME.test(g.start) || !TIME.test(g.end)) ? k + 1 : 0).filter(Boolean);
+        if (bad.length) E.push([$('.songs-field', s.el), `${bad.join('・')}曲目の始まりと終わりを 0:00 の形で入力してください。`]);
       }
     }
-    for (let i = 0; i < b.items.length; i++) {
-      const it = b.items[i], n = `依頼${i + 1}：`;
-      if (!it.types.length) return n + '種類を選んでください。';
-      if ((it.types.includes('削る') || it.types.includes('伸ばす')) && (!it.time || !it.amount)) return n + '時間と量を入力してください。';
-      if (it.types.includes('繋ぐ') && it.joins.length < 2) return n + '繋ぐ曲を2つ以上選んでください。';
-      if (it.types.includes('BPM変更') && !it.bpm) return n + 'BPMを入力してください。';
-      if (it.types.includes('その他') && !it.detail) return n + '内容を補足に入力してください。';
-    }
-    return '';
+    b.items.forEach((it, i) => {
+      const el = $$('.item', itemBox)[i], n = `依頼${i + 1}：`;
+      if (!it.types.length) { E.push([$('.f-type', el), n + '種類を選んでください。']); return; }
+      if (it.types.includes('削る') || it.types.includes('伸ばす')) {
+        if (!it.time) E.push([$('.f-time', el), n + '時間を入力してください。']);
+        if (!it.amount) E.push([$('.f-amount', el), n + '量を入力してください。']);
+      }
+      if (it.types.includes('繋ぐ') && it.joins.length < 2) E.push([$('.w-join', el), n + '繋ぐ曲を2つ以上選んでください。']);
+      if (it.types.includes('BPM変更') && !it.bpm) E.push([$('.w-bpm', el), n + 'BPMを入力してください。']);
+      if (it.types.includes('その他') && !it.detail) E.push([$('.f-detail', el), n + '内容を補足に入力してください。']);
+    });
+    return E;
   }
-  function say(t, kind = 'err') { const m = $('#msg'); m.textContent = t; m.className = 'msg ' + kind; if (kind === 'err') m.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+  function clearErrs() {
+    $$('.ferr').forEach(x => x.remove());
+    $$('.has-err').forEach(x => x.classList.remove('has-err'));
+  }
+  function markErrs(E) {
+    clearErrs();
+    for (const [f, t] of E) {
+      if (!f) continue;
+      const p = document.createElement('p');
+      p.className = 'ferr'; p.textContent = t.replace(/^依頼\d+：/, '');
+      f.prepend(p); f.classList.add('has-err');
+    }
+  }
+  // 直したらその欄の赤字を消す
+  document.addEventListener('input', e => { const f = e.target.closest('.has-err'); if (f) { f.classList.remove('has-err'); $$('.ferr', f).forEach(x => x.remove()); } });
+  document.addEventListener('change', e => { const f = e.target.closest('.has-err'); if (f) { f.classList.remove('has-err'); $$('.ferr', f).forEach(x => x.remove()); } });
+
+  function say(t, kind = 'err') { const m = $('#msg'); m.textContent = t; m.className = 'msg ' + kind; }
 
   async function post(body) {
     const r = await fetch(API, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
@@ -450,8 +476,14 @@
   $('#f').addEventListener('submit', async e => {
     e.preventDefault();
     const b = collect();
-    const err = check(b);
-    if (err) return say(err);
+    const E = check(b);
+    markErrs(E);
+    if (E.length) {
+      say(E.length === 1 ? E[0][1] : `入力が足りない所が${E.length}か所あります。赤字の所を確認してください。`);
+      const first = E.find(x => x[0]);
+      if (first) first[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return;
+    }
     const btn = $('#submit');
     btn.disabled = true;
     try {
@@ -474,7 +506,9 @@
       $('#app').classList.add('is-done');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (x) {
-      say(x.message && !/JSON|fetch|upload/i.test(x.message) ? x.message : '送信できませんでした。もう一度試してください。');
+      const t = x.message && !/JSON|fetch|upload/i.test(x.message) ? x.message : '送信できませんでした。もう一度試してください。';
+      say(t);
+      if (/^依頼者/.test(t)) { markErrs([[$('#requester').closest('.field'), t]]); $('#requester').scrollIntoView({ block: 'center', behavior: 'smooth' }); }
       btn.disabled = false; btn.textContent = '依頼を送る';
     }
   });
