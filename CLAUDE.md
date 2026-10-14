@@ -10,6 +10,12 @@ HARIBOWチームメンバー向け「案件に行く前に」プレップペー�
 - 写真を撮られるとき・ポージング（立ち方/表情の図解まとめ）
 - 振り付け確認（パート別解説動画）
 
+## 曲編集の依頼フォーム（`edit-request/`・2026-10-14〜）
+- メンバーが曲編集（エイト単位のカット・伸ばし等）を依頼するフォーム。index.html からはリンクしない（URLを直接渡す）
+- 送信先は GAS「曲編集依頼受付」（`~/projects/haribow/performance/count_edit/request_gas/`）の doPost。
+  依頼一覧SS `1a8F2kB_6dlvoy7dWL-mZgXHVuLYGGoKtVmF84oqtCQE` に1行足し、JUNYAへ内部用LINEで通知
+- ルールの正本は `performance/count_edit/RULES.md`。納品日の最短（3日後）はフォームとGASの両方で見ている
+
 ## 技術スタック
 - 静的HTML/CSS/JS（フレームワーク無し）、単一ファイル `index.html`
 - 動画はすべてYouTube限定公開埋め込み（`haribow.dd@gmail.com`チャンネル。詳細はHARIBOW全体メモリ参照）
