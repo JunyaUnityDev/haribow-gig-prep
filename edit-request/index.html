@@ -38,7 +38,7 @@
   .opt { color: var(--muted); font-size: 11px; margin-left: 6px; font-weight: 500; }
   .hint { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
 
-  input[type=text], input[type=date], select, textarea {
+  input[type=text], input[type=url], input[type=date], select, textarea {
     width: 100%; font: inherit; font-size: 16px; color: var(--ink);
     background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
     appearance: none; -webkit-appearance: none;
@@ -76,6 +76,8 @@
   .bar { height: 4px; background: var(--line); border-radius: 2px; margin-top: 8px; overflow: hidden; display: none; }
   .bar i { display: block; height: 100%; width: 0; background: var(--ink); transition: width .2s; }
   .up-ok { color: var(--ok); }
+  .or { font-size: 12.5px; color: var(--muted); margin: 10px 0 6px; }
+  .link.up-ok { border-color: var(--ok); }
 
   .songs { display: grid; gap: 8px; margin-top: 4px; }
   .song { display: grid; grid-template-columns: 56px 1fr 18px 1fr; align-items: center; gap: 6px; }
@@ -119,7 +121,7 @@
     <ul class="rules">
       <li>納品日は今日から3日後以降で選べます。</li>
       <li>「確定」で依頼した内容は、後から変更できません。</li>
-      <li>音源は wav でアップロードしてください。納品も wav です。</li>
+      <li>音源は wav です（アップロードか、Google ドライブのリンク）。納品も wav です。</li>
     </ul>
   </div>
 </header>
@@ -185,6 +187,9 @@
     <div class="field f-file">
       <label class="file"><input type="file" accept=".wav,audio/wav,audio/x-wav"><span class="btn">wavを選ぶ</span><span class="name">選ばれていません</span></label>
       <div class="bar"><i></i></div>
+      <p class="or">または、Google ドライブのリンクを貼る</p>
+      <input type="url" class="link" placeholder="https://drive.google.com/file/d/…" inputmode="url" autocomplete="off">
+      <p class="hint">ドライブにある wav は、ダウンロードせずにリンクのままで出せます。共有は「リンクを知っている全員」にしてください。</p>
     </div>
     <div class="field f-count">
       <label class="l">曲数<span class="req">必須</span></label>
@@ -278,6 +283,7 @@
       $('.name', el).textContent = f ? f.name : '選ばれていません';
       $('.name', el).classList.remove('up-ok');
     });
+    $('.link', el).addEventListener('input', () => { el.fileId = null; $('.link', el).classList.remove('up-ok'); });
     $('.count', el).addEventListener('change', () => { drawSongs(el); refreshSongSelects(); });
     $('.rm', el).addEventListener('click', () => { el.remove(); renumberSrc(); });
     srcBox.appendChild(el);
@@ -383,7 +389,7 @@
       lock: ($('input[name=lock]:checked') || {}).value || '',
       note: $('#note').value.trim(),
       sources: sources().map(s => ({
-        label: s.label, el: s.el, file: s.el.file,
+        label: s.label, el: s.el, file: s.el.file, link: $('.link', s.el).value.trim(),
         songs: $$('.song', s.el).map(r => ({ start: normTime($('.s', r).value), end: normTime($('.e', r).value) })),
       })),
       items: $$('.item', itemBox).map(el => {
@@ -412,7 +418,10 @@
     else if (b.due < iso) E.push([fieldOf('#due'), `納品日は${minTxt}以降を選んでください。`]);
     if (!b.lock) E.push([$('.f-lock'), '変更予定を選んでください。']);
     for (const s of b.sources) {
-      if (!s.file) E.push([$('.f-file', s.el), `音源${s.label}の wav を選んでください。`]);
+      if (s.link) {
+        if (!/drive\.google\.com|docs\.google\.com/.test(s.link)) E.push([$('.f-file', s.el), `音源${s.label}：Google ドライブのリンクを貼ってください。`]);
+      }
+      else if (!s.file) E.push([$('.f-file', s.el), `音源${s.label}の wav を選ぶか、ドライブのリンクを貼ってください。`]);
       else if (!/\.wav$/i.test(s.file.name)) E.push([$('.f-file', s.el), `音源${s.label}は wav のファイルを選んでください。`]);
       if (!s.songs.length) E.push([$('.f-count', s.el), `音源${s.label}の曲数を選んでください。`]);
       else {
@@ -488,18 +497,28 @@
     btn.disabled = true;
     try {
       for (const s of b.sources) {
-        if (s.el.fileId) { s.fileId = s.el.fileId; continue; }  // やり直す時は上げ直さない
+        if (s.el.fileId) { s.fileId = s.el.fileId; s.name = s.el.fileName; continue; }  // やり直す時は上げ直さない
+        if (s.link) {  // ドライブのリンク：GAS が依頼音源フォルダへコピーする
+          btn.textContent = `音源${s.label}を取り込み中…`;
+          say(`音源${s.label}をドライブから取り込んでいます。画面を閉じずにお待ちください。`, 'info');
+          const c = await post({ action: 'link', requester: b.requester, url: s.link });
+          if (!c.ok) { markErrs([[$('.f-file', s.el), c.error]]); throw new Error(`音源${s.label}：${c.error}`); }
+          s.fileId = s.el.fileId = c.fileId; s.name = s.el.fileName = c.name;
+          $('.link', s.el).classList.add('up-ok');
+          continue;
+        }
         btn.textContent = `音源${s.label}をアップロード中…`;
         say(`音源${s.label}をアップロードしています。画面を閉じずにお待ちください。`, 'info');
         const u = await post({ action: 'upload', requester: b.requester, name: s.file.name, size: s.file.size, origin: location.origin });
         if (!u.ok) throw new Error(u.error);
         s.fileId = s.el.fileId = await putFile(u.url, s.file, s.el);
+        s.name = s.el.fileName = s.file.name;
         $('.name', s.el).textContent = '✓ ' + s.file.name;
         $('.name', s.el).classList.add('up-ok');
       }
       btn.textContent = '送信中…';
       say('送信しています。', 'info');
-      const body = { ...b, sources: b.sources.map(s => ({ label: s.label, fileId: s.fileId, name: s.file.name, songs: s.songs })) };
+      const body = { ...b, sources: b.sources.map(s => ({ label: s.label, fileId: s.fileId, name: s.name, songs: s.songs })) };
       const d = await post(body);
       if (!d.ok) throw new Error(d.error);
       $('#done-no').textContent = d.no;
